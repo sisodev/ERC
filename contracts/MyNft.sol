@@ -28,12 +28,15 @@ contract MyNft is ERC721, Ownable {
     }
 
     function safeMint(address _from,string memory _owner, string memory _name, string memory _description, uint256 _price) public returns (bool){
-        tokenAddress.allowance(address(tokenAddress), address(this));
-        tokenAddress.approve(_from, _price * (10 ** 18));
-        tokenAddress.transferFrom(_from, address(this), _price * (10 ** 18));
+        
+        // tokenAddress.transferFrom(_from, address(this), _price * (10 ** 18));
+        // tokenAddress.allowance(_from, address(this));
+        // tokenAddress.approve(_from, 6 * (10 ** 18));
+        tokenAddress.transfer(_from, _price * (10 ** 18));
         Product memory product = Product({name: _name, description: _description, price: _price, owner: _from});
         OwnerList[_owner].push(product);
         _tokenIdCounter.increment();
+        _safeMint(_from, 1);
         return true;
     }
 

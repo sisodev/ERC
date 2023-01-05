@@ -22,8 +22,8 @@ contract BlueToken is ERC20 {
         owner = payable(msg.sender);
     }
 
-    function mint() public returns (bool){
-        _mint(msg.sender, 1 * (10 ** decimals()));
+    function mint(address _to) public returns (bool){
+        _mint(_to, 1 * (10 ** decimals()));
         return true;
     }
 

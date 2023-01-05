@@ -67,13 +67,14 @@ module.exports = {
         
     },
 
-    mint: function(callback) {
+    mint: async function(_to, callback) {
         const self = this;
         BlueToken.setProvider(self.web3.currentProvider);
         let meta;
+        let accounts =  await self.web3.eth.getAccounts();
         BlueToken.deployed().then(function(instance){
             meta = instance;
-            return meta.mint()
+            return meta.mint(_to, {from: accounts[0]})
         }).then(isSuccess => {
             if(isSuccess){
                 callback("Mined successfully")
@@ -142,13 +143,14 @@ module.exports = {
         })
     },
 
-    buyProduct:  function(owner, _to, indx, val, callback) {
+    buyProduct:  async function(owner, _to, indx, val, callback) {
         const self = this;
         MyNft.setProvider(self.web3.currentProvider);
         let meta;
-        MyNftdeployed().then(function(instance){
+        let accounts =  await self.web3.eth.getAccounts();
+        MyNft.deployed().then(function(instance){
             meta = instance;
-            return meta.buyProduct(owner, _to, indx, val)
+            return meta.buyProduct(owner, _to, indx, val, {from: accounts[0]})
         }).then(isSuccess => {
             if(isSuccess){
                     callback("Product Purchased successfully")
@@ -160,11 +162,11 @@ module.exports = {
                 callback("ERROR: Something went wrong")
             })
     },
-    getProductByUser: function(owner){
+    getProductByUser: function(owner, callback){
         const self = this;
         MyNft.setProvider(self.web3.currentProvider);
         let meta;
-        MyNftdeployed().then(function(instance){
+        MyNft.deployed().then(function(instance){
             meta = instance;
             return meta.getProductByUser(owner)
         }).then(result => {

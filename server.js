@@ -46,6 +46,13 @@ app.post("/register", async (req,res) => {
 
 })
 
+app.post("/mint", (req,res) => {
+    const {addr} = req.body;
+    truffle_connect.mint(addr, (answer) => {
+        res.send(answer)
+    })
+})
+
 app.post("/product/create", async (req, res) => {
    const {from, owner, name, description, price} =  req.body;
    truffle_connect.createProduct(from, owner,name, description, price, (answer) => {
